@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3 File Upload System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>S3 File Upload System</h1>
+        <p class="subtitle">Upload a file and it will be stored in Amazon S3.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+
+        <h2>Uploaded Files</h2>
+        {% if files %}
+            <ul>
+                {% for f in files %}
+                    <li>{{ f }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty">No files uploaded yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
